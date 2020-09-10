@@ -12,6 +12,12 @@
     <artifactId>smurf-registry-nacos</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-registry-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
