@@ -12,6 +12,7 @@
     <properties>
         <spring.boot.version>2.1.8.RELEASE</spring.boot.version>
         <spring.cloud.version>Greenwich.SR3</spring.cloud.version>
+        <com.alibaba.cloud.version>2.1.0.RELEASE</com.alibaba.cloud.version>
     </properties>
     <modules>
         <module>smurf-core</module>
@@ -43,6 +44,12 @@
 
             <dependency>
                 <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-registry-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
                 <artifactId>smurf-starter-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -59,6 +66,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${com.alibaba.cloud.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>

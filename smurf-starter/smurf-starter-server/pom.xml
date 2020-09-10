@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.uhasoft.smurf</groupId>
-            <artifactId>smurf-registry-consul</artifactId>
+            <artifactId>smurf-registry-nacos</artifactId>
         </dependency>
     </dependencies>
 
