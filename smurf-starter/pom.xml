@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>smurf-starter-server</module>
+        <module>smurf-starter-gateway</module>
     </modules>
 
 

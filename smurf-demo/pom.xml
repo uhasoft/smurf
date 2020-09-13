@@ -10,13 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>smurf-demo</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.uhasoft.smurf</groupId>
-            <artifactId>smurf-starter-server</artifactId>
-        </dependency>
-    </dependencies>
+    <packaging>pom</packaging>
+    <modules>
+        <module>smurf-demo-user</module>
+        <module>smurf-demo-order</module>
+        <module>smurf-demo-book</module>
+    </modules>
 
 
 </project>
