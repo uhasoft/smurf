@@ -11,5 +11,15 @@
 
     <artifactId>smurf-registry-core</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
