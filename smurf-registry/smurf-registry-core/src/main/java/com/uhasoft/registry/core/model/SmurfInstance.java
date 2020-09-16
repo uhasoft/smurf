@@ -12,6 +12,8 @@ public abstract class SmurfInstance extends Server {
         super(host, port);
     }
 
+    public abstract Server getOriginal();
+
     public abstract String getServiceName();
 
     public abstract String getServiceGroup();

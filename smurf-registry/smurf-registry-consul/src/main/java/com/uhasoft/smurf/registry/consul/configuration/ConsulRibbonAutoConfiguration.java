@@ -6,6 +6,7 @@ import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.IPing;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.ServerList;
+import com.netflix.loadbalancer.ServerListFilter;
 import com.netflix.loadbalancer.ServerListUpdater;
 import com.uhasoft.registry.core.RegistryClient;
 import com.uhasoft.registry.core.SmurfServerList;
@@ -28,7 +29,7 @@ public class ConsulRibbonAutoConfiguration {
     }
 
     @Bean
-    public ILoadBalancer ribbonLoadBalancer(IClientConfig config, ConsulServerList serverList, ConsulServerListFilter serverListFilter,
+    public ILoadBalancer ribbonLoadBalancer(IClientConfig config, ConsulServerList serverList, ServerListFilter<ConsulInstance> serverListFilter,
                                             IRule rule, IPing ping, ServerListUpdater serverListUpdater){
         return new DynamicServerListLoadBalancer<>(config, rule, ping, serverList, serverListFilter, serverListUpdater);
     }

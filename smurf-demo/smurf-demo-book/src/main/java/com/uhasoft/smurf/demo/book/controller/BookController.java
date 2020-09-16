@@ -2,6 +2,7 @@ package com.uhasoft.smurf.demo.book.controller;
 
 import com.uhasoft.smurf.common.model.Response;
 import com.uhasoft.smurf.demo.book.model.Book;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("book")
 public class BookController {
 
+    @Value("${server.port}")
+    private int port;
+
     @RequestMapping("{id}")
     public Response<Book> findById(@PathVariable String id){
         Book book = new Book();
         book.setAuthor("Weihua");
         book.setId(id);
-        book.setName("Unnamed");
+        book.setName("Unnamed" + port);
         book.setPress("Very Famous Press");
         return Response.success(book);
     }

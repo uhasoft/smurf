@@ -11,5 +11,24 @@
 
     <artifactId>smurf-gray</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-registry-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-netflix-ribbon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

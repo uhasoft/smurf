@@ -10,7 +10,7 @@ import org.springframework.cloud.consul.discovery.ConsulServer;
  */
 public class ConsulInstance extends SmurfInstance {
 
-    private ConsulServer consulServer;
+    private Server server;
 
     public ConsulInstance(Server server) {
         super(server.getHost(), server.getPort());
@@ -18,21 +18,27 @@ public class ConsulInstance extends SmurfInstance {
 
     public ConsulInstance(ConsulServer consulServer) {
         super(consulServer.getHost(), consulServer.getPort());
-        this.consulServer = consulServer;
+        this.setSchemea(consulServer.getScheme());
+        this.server = consulServer;
+    }
+
+    @Override
+    public Server getOriginal() {
+        return server;
     }
 
     @Override
     public String getServiceName() {
-        return consulServer.getMetaInfo().getAppName();
+        return server.getMetaInfo().getAppName();
     }
 
     @Override
     public String getServiceGroup() {
-        return consulServer.getMetaInfo().getServerGroup();
+        return server.getMetaInfo().getServerGroup();
     }
 
     @Override
     public String getInstanceId() {
-        return consulServer.getMetaInfo().getInstanceId();
+        return server.getMetaInfo().getInstanceId();
     }
 }
