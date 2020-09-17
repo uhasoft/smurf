@@ -14,7 +14,7 @@ public interface SmurfGrayPlan {
 
     String getName();
 
-    boolean isQualified();
+    boolean isQualified(String serviceName);
 
     List<Server> filter(String serviceName, List<Server> instances);
 }
