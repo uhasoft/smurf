@@ -1,15 +1,27 @@
 package com.uhasoft.smurf.gray.plan;
 
 import com.netflix.loadbalancer.Server;
-import com.uhasoft.smurf.core.ServerInfo;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
+import com.uhasoft.registry.core.model.SmurfInstance;
+import com.uhasoft.registry.core.RegistryServer;
+import com.uhasoft.smurf.core.context.RequestContext;
+import com.uhasoft.smurf.core.util.SpelUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.uhasoft.smurf.gray.constant.GrayConstant.CLIENT_VARIABLE;
+import static com.uhasoft.smurf.gray.constant.GrayConstant.HOST;
+import static com.uhasoft.smurf.gray.constant.GrayConstant.INSTANCE_ID;
+import static com.uhasoft.smurf.gray.constant.GrayConstant.PORT;
+import static com.uhasoft.smurf.gray.constant.GrayConstant.REQUEST_VARIABLE;
+import static com.uhasoft.smurf.gray.constant.GrayConstant.SERVER_VARIABLE;
 
 /**
  * @author Weihua
@@ -17,14 +29,14 @@ import java.util.Map;
  */
 public class DefaultGrayPlan implements SmurfGrayPlan {
 
+    private static final Logger logger = LoggerFactory.getLogger(DefaultGrayPlan.class);
+
     private Map<String, List<ClientRouteRule>> rulesMap;
 
-    private ServerInfo serverInfo;
+    private RegistryServer registryServer;
 
-    private SpelExpressionParser parser = new SpelExpressionParser();
-
-    public DefaultGrayPlan(ServerInfo serverInfo, Map<String, List<ClientRouteRule>> rulesMap){
-        this.serverInfo = serverInfo;
+    public DefaultGrayPlan(RegistryServer registryServer, Map<String, List<ClientRouteRule>> rulesMap){
+        this.registryServer = registryServer;
         this.rulesMap = rulesMap;
     }
 
@@ -35,26 +47,40 @@ public class DefaultGrayPlan implements SmurfGrayPlan {
 
     @Override
     public String getName() {
-        return null;
+        return "Client-Defined Gray Plan";
     }
 
     @Override
     public boolean isQualified(String serviceName) {
-        return !CollectionUtils.isEmpty(rulesMap) && !CollectionUtils.isEmpty(rulesMap.get(serviceName));
+        boolean qualified = !CollectionUtils.isEmpty(rulesMap) && !CollectionUtils.isEmpty(rulesMap.get(serviceName));
+        if(qualified){
+            logger.debug("{} qualifies {}", serviceName, getName());
+        } else {
+            logger.debug("{} doesn't qualify {}", serviceName, getName());
+        }
+        return qualified;
     }
 
     @Override
     public List<Server> filter(String serviceName, List<Server> instances) {
         List<ClientRouteRule> rules = rulesMap.get(serviceName);
         for(ClientRouteRule rule : rules){
+            logger.debug("Evaluating rule [{}]", rule.getName());
             StandardEvaluationContext context = new StandardEvaluationContext();
-            Map<String, String> params = Collections.singletonMap("port", serverInfo.getPort());
-            context.setVariable("c", params);
-            if(parser.parseExpression(rule.getClientCondition()).getValue(context, Boolean.class)){
+            Map<String, String> params = new HashMap<>(registryServer.getMetadata());
+            params.put(HOST, registryServer.getPort() + "");
+            params.put(PORT, registryServer.getHost());
+            params.put(INSTANCE_ID, registryServer.getInstanceId());
+            context.setVariable(CLIENT_VARIABLE, params);
+            context.setVariable(REQUEST_VARIABLE, RequestContext.getHeaders());
+            logger.debug("#{} in context:[{}]", CLIENT_VARIABLE, params);
+            logger.debug("#{} in context:[{}]", REQUEST_VARIABLE, RequestContext.getHeaders());
+            if(SpelUtil.eval(rule.getClientCondition(), context)){
                 List<Server> filtered = new ArrayList<>();
-                for(Server server : instances){
-                    if(evaluate(rule.getServerCondition(), server)){
-                        filtered.add(server);
+                for(Server instance : instances){
+                    logger.debug("Evaluating server instance: [{}]", instance.getHostPort());
+                    if(evaluate(rule.getServerCondition(), instance)){
+                        filtered.add(instance);
                     }
                 }
                 return filtered;
@@ -65,9 +91,14 @@ public class DefaultGrayPlan implements SmurfGrayPlan {
 
     private boolean evaluate(String expression, Server server){
         StandardEvaluationContext context = new StandardEvaluationContext();
-        Map<String, String> params = Collections.singletonMap("port", server.getPort() + "");
-        context.setVariable("s", params);
-        return parser.parseExpression(expression).getValue(context, Boolean.class);
+        Map<String, String> params = new HashMap<>();
+        params.put(HOST, server.getHost());
+        params.put(PORT, server.getPort() + "");
+        params.put(INSTANCE_ID, server.getId());
+        params.putAll(((SmurfInstance)server).getMetadata());
+        context.setVariable(SERVER_VARIABLE, params);
+        logger.debug("#{} in context:[{}]", SERVER_VARIABLE, params);
+        return SpelUtil.eval(expression, context);
     }
 
 }

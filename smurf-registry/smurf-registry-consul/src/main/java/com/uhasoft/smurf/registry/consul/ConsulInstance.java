@@ -4,6 +4,8 @@ import com.netflix.loadbalancer.Server;
 import com.uhasoft.registry.core.model.SmurfInstance;
 import org.springframework.cloud.consul.discovery.ConsulServer;
 
+import java.util.Map;
+
 /**
  * @author Weihua
  * @since 1.0.0
@@ -40,5 +42,10 @@ public class ConsulInstance extends SmurfInstance {
     @Override
     public String getInstanceId() {
         return server.getMetaInfo().getInstanceId();
+    }
+
+    @Override
+    public Map<String, String> getMetadata() {
+        return ((ConsulServer)server).getMetadata();
     }
 }
