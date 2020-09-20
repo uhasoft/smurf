@@ -6,8 +6,17 @@ package com.uhasoft.smurf.gray.plan;
  */
 public class ClientRouteRule {
 
+    private String name;
     private String clientCondition;
     private String serverCondition;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getClientCondition() {
         return clientCondition;

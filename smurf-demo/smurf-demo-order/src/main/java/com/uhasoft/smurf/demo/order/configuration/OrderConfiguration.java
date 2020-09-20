@@ -1,6 +1,6 @@
 package com.uhasoft.smurf.demo.order.configuration;
 
-import com.uhasoft.smurf.core.ServerInfo;
+import com.uhasoft.registry.core.RegistryServer;
 import com.uhasoft.smurf.gray.plan.ClientRouteRule;
 import com.uhasoft.smurf.gray.plan.DefaultGrayPlan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class OrderConfiguration {
 
     @Autowired
-    private ServerInfo serverInfo;
+    private RegistryServer registryServer;
 
     @Bean
     public DefaultGrayPlan defaultGrayPlan(){
@@ -28,16 +28,18 @@ public class OrderConfiguration {
         List<ClientRouteRule> rules = new ArrayList<>();
         {
             ClientRouteRule rule = new ClientRouteRule();
-            rule.setClientCondition("true");
-            rule.setServerCondition("#s['port'] == '8301'");
+            rule.setName("Shanghai Rule");
+            rule.setClientCondition("#r['s-g-area'] == 'shanghai'");
+            rule.setServerCondition("#s['area'] == 'shanghai'");
             rules.add(rule);
         }
-//        {
-//            ClientRouteRule rule = new ClientRouteRule();
-//            rule.setClientCondition("#c['port'] == '8202'");
-//            rule.setServerCondition("#s['port'] == '8302'");
-//            rules.add(rule);
-//        }
+        {
+            ClientRouteRule rule = new ClientRouteRule();
+            rule.setName("Beijing Rule");
+            rule.setClientCondition("#r['s-g-area'] == 'beijing'");
+            rule.setServerCondition("#s['area'] == 'beijing'");
+            rules.add(rule);
+        }
 //        {
 //            ClientRouteRule rule = new ClientRouteRule();
 //            rule.setClientCondition("#c['port'] == '8203'");
@@ -46,6 +48,6 @@ public class OrderConfiguration {
 //        }
         rulesMap.put("demo-book", rules);
 
-        return new DefaultGrayPlan(serverInfo, rulesMap);
+        return new DefaultGrayPlan(registryServer, rulesMap);
     }
 }

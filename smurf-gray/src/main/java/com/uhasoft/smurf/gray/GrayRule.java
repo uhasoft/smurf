@@ -37,7 +37,9 @@ public class GrayRule implements IRule {
             for(SmurfGrayPlan plan : plans){
                 if(plan.isQualified(serviceName)){
                     List<Server> instances = plan.filter(serviceName, loadBalancer.getReachableServers());
-                    return availabilityPredicate.chooseRandomlyAfterFiltering(instances).orNull();
+                    if(!CollectionUtils.isEmpty(instances)){
+                        return availabilityPredicate.chooseRandomlyAfterFiltering(instances).orNull();
+                    }
                 }
             }
         }

@@ -2,6 +2,8 @@ package com.uhasoft.registry.core.model;
 
 import com.netflix.loadbalancer.Server;
 
+import java.util.Map;
+
 /**
  * @author Weihua
  * @since 1.0.0
@@ -19,5 +21,7 @@ public abstract class SmurfInstance extends Server {
     public abstract String getServiceGroup();
 
     public abstract String getInstanceId();
+
+    public abstract Map<String, String> getMetadata();
 
 }
