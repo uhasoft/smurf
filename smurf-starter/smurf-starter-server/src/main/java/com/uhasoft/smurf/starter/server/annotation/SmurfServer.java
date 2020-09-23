@@ -22,5 +22,6 @@ import java.lang.annotation.Target;
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableFeignClients
+//@EnableApolloConfig
 public @interface SmurfServer {
 }

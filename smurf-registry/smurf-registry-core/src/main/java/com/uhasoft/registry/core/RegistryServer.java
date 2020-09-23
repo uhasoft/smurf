@@ -16,6 +16,10 @@ public class RegistryServer {
     @Autowired
     private Registration registration;
 
+    public String getServiceName(){
+        return registration.getServiceId();
+    }
+
     public int getPort() {
         return registration.getPort();
     }

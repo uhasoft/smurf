@@ -1,15 +1,22 @@
 package com.uhasoft.smurf.gray.plan;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netflix.loadbalancer.Server;
 import com.uhasoft.registry.core.model.SmurfInstance;
 import com.uhasoft.registry.core.RegistryServer;
+import com.uhasoft.smurf.config.core.ConfigService;
 import com.uhasoft.smurf.core.context.RequestContext;
 import com.uhasoft.smurf.core.util.SpelUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,11 +40,22 @@ public class DefaultGrayPlan implements SmurfGrayPlan {
 
     private Map<String, List<ClientRouteRule>> rulesMap;
 
+    @Autowired
     private RegistryServer registryServer;
 
-    public DefaultGrayPlan(RegistryServer registryServer, Map<String, List<ClientRouteRule>> rulesMap){
-        this.registryServer = registryServer;
-        this.rulesMap = rulesMap;
+    @Autowired
+    private ConfigService configService;
+
+    @PostConstruct
+    public void init(){
+        configService.observe("smurf.gray." + registryServer.getServiceName(), "smurf.gray.rules", value -> {
+            logger.info("Gray rules: {}", value);
+            if(value != null){
+                Type type = new TypeToken<Map<String, List<ClientRouteRule>>>(){}.getType();
+                this.rulesMap = new Gson().fromJson(value, type);
+                logger.info("Loaded gray rules for {} services.", rulesMap.size());
+            }
+        });
     }
 
     @Override
@@ -67,7 +85,7 @@ public class DefaultGrayPlan implements SmurfGrayPlan {
         for(ClientRouteRule rule : rules){
             logger.debug("Evaluating rule [{}]", rule.getName());
             StandardEvaluationContext context = new StandardEvaluationContext();
-            Map<String, String> params = new HashMap<>(registryServer.getMetadata());
+            Map<String, Object> params = new HashMap<>(registryServer.getMetadata());
             params.put(HOST, registryServer.getPort() + "");
             params.put(PORT, registryServer.getHost());
             params.put(INSTANCE_ID, registryServer.getInstanceId());
@@ -83,7 +101,9 @@ public class DefaultGrayPlan implements SmurfGrayPlan {
                         filtered.add(instance);
                     }
                 }
-                return filtered;
+                if(!CollectionUtils.isEmpty(filtered)){
+                    return filtered;
+                }
             }
         }
         return null;

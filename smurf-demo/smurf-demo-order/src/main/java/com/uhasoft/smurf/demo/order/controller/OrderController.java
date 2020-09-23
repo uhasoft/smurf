@@ -5,7 +5,6 @@ import com.uhasoft.smurf.demo.order.feign.BookResource;
 import com.uhasoft.smurf.demo.order.model.Book;
 import com.uhasoft.smurf.demo.order.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,19 +53,4 @@ public class OrderController {
         return Response.success(ORDERS.values());
     }
 
-
-    @Value("${config.value.boolean:false}")
-    private boolean configValueEnabled;
-
-    @Value("${config.value.string}")
-    private String configValueString;
-
-    @RequestMapping("config/value/boolean")
-    public boolean validateBooleanConfigValue(){
-        return configValueEnabled;
-    }
-    @RequestMapping("config/value/string")
-    public String validateStringConfigValue(){
-        return configValueString;
-    }
 }
