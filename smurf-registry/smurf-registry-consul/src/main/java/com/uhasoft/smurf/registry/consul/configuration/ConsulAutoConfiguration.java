@@ -6,6 +6,7 @@ import com.uhasoft.smurf.registry.consul.ConsulInstance;
 import com.uhasoft.smurf.registry.consul.ConsulRegistryClient;
 import com.uhasoft.smurf.registry.consul.ConsulServerListFilter;
 import com.uhasoft.smurf.registry.consul.RegistrationCustomizer;
+import com.uhasoft.smurf.registry.consul.SmurfConsulClient;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.serviceregistry.ConsulRegistrationCustomizer;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
@@ -33,6 +34,11 @@ public class ConsulAutoConfiguration {
     @Bean
     public ConsulServerListFilter serverListFilter(){
         return new ConsulServerListFilter();
+    }
+
+    @Bean
+    public ConsulClient consulClient(){
+        return new SmurfConsulClient();
     }
 
 }
