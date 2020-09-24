@@ -43,7 +43,7 @@ public class GrayRule implements IRule {
                 }
             }
         }
-        return null;
+        return availabilityPredicate.chooseRandomlyAfterFiltering(loadBalancer.getReachableServers()).orNull();
     }
 
     @Override

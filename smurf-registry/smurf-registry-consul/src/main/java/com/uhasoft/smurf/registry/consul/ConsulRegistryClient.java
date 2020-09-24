@@ -5,9 +5,11 @@ import com.ecwid.consul.v1.QueryParams;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.health.model.HealthService;
 import com.uhasoft.registry.core.RegistryClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties;
 import org.springframework.cloud.consul.discovery.ConsulServer;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,9 +23,17 @@ public class ConsulRegistryClient implements RegistryClient<ConsulInstance> {
     private ConsulClient consulClient;
     private ConsulDiscoveryProperties properties;
 
+    @Value("${env}")
+    private String env;
+
     public ConsulRegistryClient(ConsulClient consulClient, ConsulDiscoveryProperties properties){
         this.consulClient = consulClient;
         this.properties = properties;
+    }
+
+    @PostConstruct
+    public void init(){
+        this.properties.setDefaultQueryTag("env=" + env);
     }
 
     @Override
