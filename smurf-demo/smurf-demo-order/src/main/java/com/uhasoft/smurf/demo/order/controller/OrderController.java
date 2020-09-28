@@ -1,5 +1,6 @@
 package com.uhasoft.smurf.demo.order.controller;
 
+import com.uhasoft.smurf.common.annotation.Resource;
 import com.uhasoft.smurf.common.model.Response;
 import com.uhasoft.smurf.demo.order.feign.BookResource;
 import com.uhasoft.smurf.demo.order.model.Book;
@@ -44,6 +45,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+    @Resource(value = "test", threshold = 1)
     public Response<Order> findById(@PathVariable String id){
         return Response.success(ORDERS.get(id));
     }

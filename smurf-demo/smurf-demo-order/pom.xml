@@ -20,6 +20,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-ratelimit-guava</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
