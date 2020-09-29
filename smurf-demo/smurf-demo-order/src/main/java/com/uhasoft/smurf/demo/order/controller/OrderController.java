@@ -2,6 +2,7 @@ package com.uhasoft.smurf.demo.order.controller;
 
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
@@ -50,7 +51,7 @@ public class OrderController {
         FlowRule rule = new FlowRule();
         rule.setResource("findById");
         // set limit qps to 20
-        rule.setCount(5);
+        rule.setCount(7);
         rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         rules.add(rule);
         FlowRuleManager.loadRules(rules);
@@ -69,13 +70,10 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Response<Order> findById(@PathVariable String id){
-        try (Entry ignored = SphU.entry("findById")) {
-            System.out.println("Pass:" + new Date());
-            return Response.success(ORDERS.get(id));
-        } catch (BlockException ex){
-            throw new RateLimitException(ex.getMessage());
-        }
+    @SentinelResource("findById")
+    public Response<Order> findById(@PathVariable String id) {
+        System.out.println("Pass:" + new Date());
+        return Response.success(ORDERS.get(id));
     }
 
     @GetMapping
@@ -84,7 +82,7 @@ public class OrderController {
     }
 
     @ExceptionHandler
-    public Response<String> handleException(RateLimitException ex){
+    public Response<String> handleException(BlockException ex){
         System.out.println("Limited:" + new Date());
         //|--timestamp-|------date time----|-resource-|p |block|s |e|rt  |occupied
         //p stands for incoming request,
