@@ -5,8 +5,10 @@ import com.uhasoft.smurf.common.model.Response;
 import com.uhasoft.smurf.demo.order.feign.BookResource;
 import com.uhasoft.smurf.demo.order.model.Book;
 import com.uhasoft.smurf.demo.order.model.Order;
+import com.uhasoft.smurf.ratelimit.core.exception.RateLimitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,14 +48,20 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    @Resource(value = "test", threshold = 1)
     public Response<Order> findById(@PathVariable String id){
+        System.out.println("Pass:" + new Date());
         return Response.success(ORDERS.get(id));
     }
 
     @GetMapping
     public Response<Collection<Order>> findAll(){
         return Response.success(ORDERS.values());
+    }
+
+    @ExceptionHandler
+    public Response<String> handleException(RateLimitException ex){
+        System.out.println("Limited:" + new Date());
+        return Response.failure(ex.getMessage(), ex.getMessage());
     }
 
 }

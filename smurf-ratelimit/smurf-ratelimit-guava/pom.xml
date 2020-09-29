@@ -17,12 +17,24 @@
             <artifactId>smurf-ratelimit-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-config-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-registry-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
     </dependencies>
 
