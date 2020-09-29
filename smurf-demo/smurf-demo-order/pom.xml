@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.uhasoft.smurf</groupId>
-            <artifactId>smurf-ratelimit-guava</artifactId>
+            <artifactId>smurf-ratelimit-sentinel</artifactId>
         </dependency>
     </dependencies>
 

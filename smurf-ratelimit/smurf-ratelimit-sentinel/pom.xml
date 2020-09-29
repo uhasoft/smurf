@@ -11,5 +11,15 @@
 
     <artifactId>smurf-ratelimit-sentinel</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-ratelimit-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
