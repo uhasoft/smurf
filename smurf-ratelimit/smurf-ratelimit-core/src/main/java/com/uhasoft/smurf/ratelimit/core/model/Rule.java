@@ -1,4 +1,4 @@
-package com.uhasoft.smurf.ratelimit.guava.model;
+package com.uhasoft.smurf.ratelimit.core.model;
 
 import java.util.Map;
 

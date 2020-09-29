@@ -17,12 +17,20 @@
             <artifactId>smurf-ratelimit-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-core</artifactId>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-config-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-registry-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-annotation-aspectj</artifactId>
+            <artifactId>sentinel-spring-webmvc-adapter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
     </dependencies>
 

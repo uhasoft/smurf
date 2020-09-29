@@ -8,7 +8,7 @@ import com.uhasoft.smurf.common.util.StringUtils;
 import com.uhasoft.smurf.config.core.ConfigService;
 import com.uhasoft.smurf.ratelimit.core.OriginParser;
 import com.uhasoft.smurf.ratelimit.core.exception.RateLimitException;
-import com.uhasoft.smurf.ratelimit.guava.model.Rule;
+import com.uhasoft.smurf.ratelimit.core.model.Rule;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
