@@ -132,6 +132,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-starter-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
                 <version>${apollo.version}</version>

@@ -11,5 +11,15 @@
 
     <artifactId>smurf-gateway-core</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-config-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-registry-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

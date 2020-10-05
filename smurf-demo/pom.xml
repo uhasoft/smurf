@@ -15,6 +15,7 @@
         <module>smurf-demo-user</module>
         <module>smurf-demo-order</module>
         <module>smurf-demo-book</module>
+        <module>smurf-demo-gateway</module>
     </modules>
 
 
