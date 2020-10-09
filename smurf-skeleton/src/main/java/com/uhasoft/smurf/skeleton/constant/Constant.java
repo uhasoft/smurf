@@ -1,8 +1,9 @@
 package com.uhasoft.smurf.skeleton.constant;
 
 /**
- @author Weihua
- @since 1.0.0 */
+ * @author Weihua
+ * @since 1.0.0
+ */
 public class Constant {
 
   public static final String POM_FILE = "pom.xml";

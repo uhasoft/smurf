@@ -1,13 +1,14 @@
 package com.uhasoft.smurf.skeleton.core;
 
 import com.uhasoft.smurf.skeleton.constant.Constant;
-import com.uhasoft.smurf.skeleton.util.FileUtil;
+import com.uhasoft.smurf.common.util.FileUtils;
 
 import java.io.File;
 
 /**
- @author Weihua
- @since 1.0.0 */
+ * @author Weihua
+ * @since 1.0.0
+ */
 public class Src {
 
   private File javaFolder;
@@ -15,9 +16,9 @@ public class Src {
   private File testFolder;
 
   public Src(File mainFolder){
-    this.javaFolder = FileUtil.createFolder(mainFolder, Constant.JAVA_FOLDER);
-    this.resFolder = FileUtil.createFolder(mainFolder, Constant.RESOURCE_FOLDER);
-    this.testFolder = FileUtil.createFolder(mainFolder, Constant.TEST_FOLDER);
+    this.javaFolder = FileUtils.createFolder(mainFolder, Constant.JAVA_FOLDER);
+    this.resFolder = FileUtils.createFolder(mainFolder, Constant.RESOURCE_FOLDER);
+    this.testFolder = FileUtils.createFolder(mainFolder, Constant.TEST_FOLDER);
   }
 
   public File getJavaFolder() {

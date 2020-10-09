@@ -2,7 +2,7 @@ package com.uhasoft.smurf.skeleton.generator;
 
 import com.uhasoft.smurf.skeleton.constant.Constant;
 import com.uhasoft.smurf.skeleton.core.Src;
-import com.uhasoft.smurf.skeleton.util.FileUtil;
+import com.uhasoft.smurf.common.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +18,9 @@ import static com.uhasoft.smurf.skeleton.constant.Constant.RESOURCE_FOLDER;
 import static com.uhasoft.smurf.skeleton.constant.Constant.TEST_FOLDER;
 
 /**
- @author Weihua
- @since 1.0.0 */
+ * @author Weihua
+ * @since 1.0.0
+ */
 public class ModuleGenerator {
 
   private static final Logger logger = LoggerFactory.getLogger(ModuleGenerator.class);
@@ -128,7 +129,7 @@ public class ModuleGenerator {
   }
 
   public static Src generateSrc(File target){
-    File main = FileUtil.createFolder(target, Constant.MAIN_FOLDER);
+    File main = FileUtils.createFolder(target, Constant.MAIN_FOLDER);
     return new Src(main);
   }
 
