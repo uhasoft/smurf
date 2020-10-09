@@ -30,6 +30,7 @@
         <module>smurf-monitor</module>
         <module>smurf-gateway</module>
         <module>smurf-common</module>
+        <module>smurf-skeleton</module>
     </modules>
 
     <dependencyManagement>
