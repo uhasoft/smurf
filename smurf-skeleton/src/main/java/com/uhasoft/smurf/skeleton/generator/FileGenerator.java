@@ -10,9 +10,12 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Map;
 
+import static com.uhasoft.smurf.skeleton.constant.Constant.TEMPLATE_FOLDER;
+
 /**
- @author Weihua
- @since 1.0.0 */
+ * @author Weihua
+ * @since 1.0.0
+ */
 public class FileGenerator {
 
   private static final Logger logger = LoggerFactory.getLogger(FileGenerator.class);
@@ -27,7 +30,7 @@ public class FileGenerator {
     logger.info("generate file: {}", source.getName());
     try {
       String fileName = source.getAbsolutePath();
-      Template template = configuration.getTemplate(fileName.substring(fileName.indexOf("template")));
+      Template template = configuration.getTemplate(fileName.substring(fileName.indexOf(TEMPLATE_FOLDER)));
       Writer out = new FileWriter(target);
       template.process(params, out);
       out.flush();
