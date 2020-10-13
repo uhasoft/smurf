@@ -16,6 +16,9 @@
     <properties>
         <java.version>1.8</java.version>
         <smurf.version>1.0-SNAPSHOT</smurf.version>
+        <#if mysql?exists>
+        <mysql.version>${mysql}</mysql.version>
+        </#if>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +36,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <#if mysql?exists>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${r"${mysql.version}"}</version>
+            </dependency>
+            </#if>
         </dependencies>
 
     </dependencyManagement>
