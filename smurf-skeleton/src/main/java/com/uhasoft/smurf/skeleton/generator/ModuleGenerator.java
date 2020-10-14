@@ -1,41 +1,60 @@
 package com.uhasoft.smurf.skeleton.generator;
 
+import com.uhasoft.smurf.core.util.SpelUtil;
 import com.uhasoft.smurf.skeleton.constant.Constant;
 import com.uhasoft.smurf.skeleton.core.Src;
 import com.uhasoft.smurf.common.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import static com.uhasoft.smurf.skeleton.constant.Constant.BASE_PACKAGE;
 import static com.uhasoft.smurf.skeleton.constant.Constant.JAVA_FOLDER;
 import static com.uhasoft.smurf.skeleton.constant.Constant.RESOURCE_FOLDER;
+import static com.uhasoft.smurf.skeleton.constant.Constant.TEMPLATE_FOLDER;
 import static com.uhasoft.smurf.skeleton.constant.Constant.TEST_FOLDER;
 
 /**
  * @author Weihua
  * @since 1.0.0
  */
+@Component
 public class ModuleGenerator {
 
   private static final Logger logger = LoggerFactory.getLogger(ModuleGenerator.class);
 
   private File source;
-  private File target;
-  private Map<String, String> params;
 
-  public ModuleGenerator(File source, File target, Map<String, String> params){
-    this.source = source;
-    this.target = target;
-    this.params = params;
+  @Value("${smurf.skeleton.file.visible:}")
+  private String fileVisible;
+
+  private Map<String, String> fileVisibleMap = new LinkedHashMap<>();
+
+  public ModuleGenerator(){
+    this.source = new File(getClass().getClassLoader().getResource(TEMPLATE_FOLDER).getFile());
   }
 
-  public void run() {
+  @PostConstruct
+  public void init(){
+    String[] visibilities = fileVisible.split(";");
+    for(String visibility : visibilities){
+      String[] kv = visibility.split(":");
+      fileVisibleMap.put(kv[0], kv[1]);
+    }
+  }
+
+  public void run(File target, Map<String, String> params) {
     if(!target.exists()){
       boolean created = target.mkdirs();
       if(created){
@@ -59,7 +78,7 @@ public class ModuleGenerator {
           initModule(child, new File(target, childModule), childParams);
         } else if(child.isDirectory()){
           copyFolder(child, new File(target, child.getName()), params);
-        } else {
+        } else if(shouldGenerate(child, params)){
           FileGenerator.generate(child, new File(target, child.getName()), params);
         }
       }
@@ -80,7 +99,7 @@ public class ModuleGenerator {
   public void copy(File source, File target, Map<String, String> params){
     if(source.isDirectory()){
       copyFolder(source, target, params);
-    } else {
+    } else if(shouldGenerate(source, params)){
       FileGenerator.generate(source, target, params);
     }
   }
@@ -126,6 +145,19 @@ public class ModuleGenerator {
    */
   public static boolean isModule(File source){
     return source.isDirectory() && new File(source, Constant.POM_FILE).exists();
+  }
+
+  public boolean shouldGenerate(File file, Map<String, String> params){
+    for(String fileSuffix : fileVisibleMap.keySet()){
+      if(file.getAbsolutePath().endsWith(fileSuffix)){
+        StandardEvaluationContext context = new StandardEvaluationContext();
+        Map<String, Object> variables = new HashMap<>(params.size());
+        params.forEach(variables::put);
+        context.setVariables(variables);
+        return SpelUtil.eval(fileVisibleMap.get(fileSuffix), context);
+      }
+    }
+    return true;
   }
 
   public static Src generateSrc(File target){

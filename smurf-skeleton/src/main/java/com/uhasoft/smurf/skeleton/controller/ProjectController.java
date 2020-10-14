@@ -5,6 +5,7 @@ import com.uhasoft.smurf.common.util.FileUtils;
 import com.uhasoft.smurf.skeleton.generator.ModuleGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +37,13 @@ public class ProjectController {
     @Value("${smurf.skeleton.option:}")
     private String options;
 
+    @Autowired
+    private ModuleGenerator moduleGenerator;
+
     @GetMapping("download")
     public void download(@RequestParam Map<String, String> params, HttpServletResponse response) {
-        File root = new File(getClass().getClassLoader().getResource(TEMPLATE_FOLDER).getFile());
-
         String target = TARGET_PATH + params.get("moduleName");
-        new ModuleGenerator(root, new File(target), params).run();
+        moduleGenerator.run(new File(target), params);
         File zipFile = FileUtils.compress(target, target + ".zip");
         response.reset();
         response.addHeader("Content-Disposition", "attachment;filename=" + new String(zipFile.getName().getBytes()));
