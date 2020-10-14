@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.uhasoft.smurf.skeleton.constant.Constant.TARGET_PATH;
-import static com.uhasoft.smurf.skeleton.constant.Constant.TEMPLATE_FOLDER;
 
 
 /**
