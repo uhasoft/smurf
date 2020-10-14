@@ -31,6 +31,7 @@
         <module>smurf-gateway</module>
         <module>smurf-common</module>
         <module>smurf-skeleton</module>
+        <module>smurf-validation</module>
     </modules>
 
     <dependencyManagement>
