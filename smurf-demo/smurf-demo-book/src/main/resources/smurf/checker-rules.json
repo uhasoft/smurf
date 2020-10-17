@@ -1,0 +1,46 @@
+[
+  {
+    "id": "press-xxx",
+    "prerequisite": "#r['press'] == 'xxx'",
+    "condition": "#r['discount'] >= 0.8",
+    "messageId": "min.press.discount",
+    "messageArgs": [
+      "xxx",
+      "0.8"
+    ]
+  },
+  {
+    "id": "press-yyy",
+    "prerequisite": "#r['press'] == 'yyy'",
+    "condition": "#r['discount'] >= 0.7",
+    "messageId": "min.press.discount",
+    "messageArgs": [
+      "yyy",
+      "0.7"
+    ]
+  },
+  {
+    "id": "author-required",
+    "condition": "#r['author'] != null",
+    "messageId": "field.is.required",
+    "messageArgs": [
+      "作者"
+    ]
+  },
+  {
+    "id": "name-required",
+    "condition": "#r['name'] != null",
+    "messageId": "field.is.required",
+    "messageArgs": [
+      "书名"
+    ]
+  },
+  {
+    "id": "id-required",
+    "condition": "#r['id'] != null",
+    "messageId": "field.is.required",
+    "messageArgs": [
+      "书籍ID"
+    ]
+  }
+]

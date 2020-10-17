@@ -1,0 +1,15 @@
+{
+  "saveBook": [
+    "press-xxx",
+    "press-yyy",
+    "author-required",
+    "name-required"
+  ],
+  "updateBook": [
+    "press-xxx",
+    "press-yyy",
+    "author-required",
+    "name-required",
+    "id-required"
+  ]
+}

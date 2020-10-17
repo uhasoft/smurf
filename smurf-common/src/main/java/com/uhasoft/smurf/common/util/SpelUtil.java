@@ -1,4 +1,4 @@
-package com.uhasoft.smurf.core.util;
+package com.uhasoft.smurf.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

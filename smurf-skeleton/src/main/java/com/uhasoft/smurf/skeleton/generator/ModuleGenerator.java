@@ -1,6 +1,6 @@
 package com.uhasoft.smurf.skeleton.generator;
 
-import com.uhasoft.smurf.core.util.SpelUtil;
+import com.uhasoft.smurf.common.util.SpelUtil;
 import com.uhasoft.smurf.skeleton.constant.Constant;
 import com.uhasoft.smurf.skeleton.core.Src;
 import com.uhasoft.smurf.common.util.FileUtils;
@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
