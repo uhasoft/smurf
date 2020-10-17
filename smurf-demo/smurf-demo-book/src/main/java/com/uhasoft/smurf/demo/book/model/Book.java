@@ -13,4 +13,7 @@ public class Book {
     private String name;
     private String author;
     private String press;
+    private double price;
+    private double discount;
+
 }

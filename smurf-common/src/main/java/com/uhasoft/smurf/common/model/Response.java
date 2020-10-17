@@ -25,8 +25,8 @@ public class Response<T> {
         return new Response<>(SUCCESS, null, data);
     }
 
-    public static <D> Response<D> failure(String message, D data){
-        return new Response<>(FAILURE, message, data);
+    public static <D> Response<D> failure(String message){
+        return new Response<>(FAILURE, message, null);
     }
 
     public int getStatus() {
