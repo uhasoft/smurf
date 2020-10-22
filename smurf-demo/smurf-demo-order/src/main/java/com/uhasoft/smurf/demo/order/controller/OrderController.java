@@ -79,7 +79,7 @@ public class OrderController {
         // e for exception count,
         // rt for average response time (ms),
         // occupied stands for occupiedPassQps since 1.5.0 which enable us booking more than 1 shot when entering.
-        return Response.failure(ex.getMessage(), ex.getMessage());
+        return Response.failure(ex.getMessage());
     }
 
 }
