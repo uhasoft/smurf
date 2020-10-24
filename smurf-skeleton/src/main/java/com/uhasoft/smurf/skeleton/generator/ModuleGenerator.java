@@ -1,9 +1,9 @@
 package com.uhasoft.smurf.skeleton.generator;
 
+import com.uhasoft.smurf.common.util.FileUtils;
 import com.uhasoft.smurf.common.util.SpelUtil;
 import com.uhasoft.smurf.skeleton.constant.Constant;
 import com.uhasoft.smurf.skeleton.core.Src;
-import com.uhasoft.smurf.common.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +72,7 @@ public class ModuleGenerator {
       for(File child : children){
         if(isModule(child)){
           Map<String, String> childParams = new HashMap<>(params);
-          childParams.put(BASE_PACKAGE, params.get(BASE_PACKAGE).concat("." + child.getName()));
+//          childParams.put(BASE_PACKAGE, params.get(BASE_PACKAGE).concat("." + child.getName()));
           String childModule = params.get("moduleName") + "-" + child.getName();
           initModule(child, new File(target, childModule), childParams);
         } else if(child.isDirectory()){

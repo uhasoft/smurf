@@ -25,7 +25,7 @@ public class RegistrationCustomizer implements ConsulRegistrationCustomizer {
     @Autowired(required = false)
     private List<TagCustomizer> tagCustomizers = Collections.EMPTY_LIST;
 
-    @Value("${env}")
+    @Value("${env:dev}")
     private String env;
 
     public void customize(ConsulRegistration registration) {

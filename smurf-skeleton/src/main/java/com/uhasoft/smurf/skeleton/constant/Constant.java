@@ -17,6 +17,6 @@ public interface Constant {
    * 理论上，该文件夹的文件内容可随意更改，只要符合SpEL语法即可，生成的项目结构基本上就是加上package之后的结构
    */
   String TEMPLATE_FOLDER = "template";
-  String TARGET_PATH = "$HOME/workspace/";
+  String TARGET_PATH = System.getProperty("user.home") + "/workspace/";
 
 }

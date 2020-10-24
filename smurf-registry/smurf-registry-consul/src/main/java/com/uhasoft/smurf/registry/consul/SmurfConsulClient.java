@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class SmurfConsulClient extends ConsulClient {
 
-    @Value("${env}")
+    @Value("${env:dev}")
     private String env;
 
     @Override

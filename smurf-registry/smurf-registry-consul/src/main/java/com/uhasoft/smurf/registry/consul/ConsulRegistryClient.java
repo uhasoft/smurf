@@ -23,7 +23,7 @@ public class ConsulRegistryClient implements RegistryClient<ConsulInstance> {
     private ConsulClient consulClient;
     private ConsulDiscoveryProperties properties;
 
-    @Value("${env}")
+    @Value("${env:dev}")
     private String env;
 
     public ConsulRegistryClient(ConsulClient consulClient, ConsulDiscoveryProperties properties){

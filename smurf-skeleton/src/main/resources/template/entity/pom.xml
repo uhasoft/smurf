@@ -13,19 +13,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-business-entity</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${group}</groupId>
             <artifactId>${moduleName}-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <#if mysql?exists>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        </#if>
     </dependencies>
 
 

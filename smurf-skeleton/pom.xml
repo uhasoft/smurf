@@ -60,6 +60,7 @@
                     <include>**/*.properties</include>
                     <include>**/*.json</include>
                     <include>**/*.java</include>
+                    <include>**/spring.factories</include>
                 </includes>
             </resource>
         </resources>

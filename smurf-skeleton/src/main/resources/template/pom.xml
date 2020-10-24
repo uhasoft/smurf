@@ -2,33 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>${group}</groupId>
     <artifactId>${moduleName}</artifactId>
-    <version>${version}</version>
-    <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-
+    <version>${version}</version>
     <modules>
         <module>${moduleName}-common</module>
         <module>${moduleName}-entity</module>
+        <module>${moduleName}-dao</module>
+        <module>${moduleName}-service</module>
+        <module>${moduleName}-web</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
         <smurf.version>1.0-SNAPSHOT</smurf.version>
-        <#if mysql?exists>
-        <mysql.version>${mysql}</mysql.version>
-        </#if>
+        <tk.mybatis.spring.bootversion>2.1.5</tk.mybatis.spring.bootversion>
+        <tk.mybatis.version>4.1.5</tk.mybatis.version>
+        <mysql.driver.version>5.1.44</mysql.driver.version>
+        <pagehelper.version>4.1.6</pagehelper.version>
     </properties>
 
     <dependencyManagement>
-
         <dependencies>
-            <dependency>
-                <groupId>${group}</groupId>
-                <artifactId>${moduleName}-common</artifactId>
-                <version>${r"${project.version}"}</version>
-            </dependency>
             <dependency>
                 <groupId>com.uhasoft.smurf</groupId>
                 <artifactId>smurf</artifactId>
@@ -36,15 +34,50 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <#if mysql?exists>
+            <dependency>
+                <groupId>${group}</groupId>
+                <artifactId>${moduleName}-common</artifactId>
+                <version>${r"${project.version}"}</version>
+            </dependency>
+            <dependency>
+                <groupId>${group}</groupId>
+                <artifactId>${moduleName}-entity</artifactId>
+                <version>${r"${project.version}"}</version>
+            </dependency>
+            <dependency>
+                <groupId>${group}</groupId>
+                <artifactId>${moduleName}-dao</artifactId>
+                <version>${r"${project.version}"}</version>
+            </dependency>
+            <dependency>
+                <groupId>${group}</groupId>
+                <artifactId>${moduleName}-service</artifactId>
+                <version>${r"${project.version}"}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper</artifactId>
+                <version>${r"${tk.mybatis.version}"}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot</artifactId>
+                <version>${r"${tk.mybatis.spring.bootversion}"}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>${r"${mysql.version}"}</version>
+                <version>${r"${mysql.driver.version}"}</version>
             </dependency>
-            </#if>
-        </dependencies>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${r"${pagehelper.version}"}</version>
+            </dependency>
 
+        </dependencies>
     </dependencyManagement>
 
     <build>

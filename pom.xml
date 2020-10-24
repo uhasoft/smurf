@@ -18,6 +18,10 @@
         <gson.version>2.8.6</gson.version>
         <aspectj.version>1.9.6</aspectj.version>
         <sentinel.version>1.8.0</sentinel.version>
+        <tk.mybatis.spring.bootversion>2.1.5</tk.mybatis.spring.bootversion>
+        <tk.mybatis.version>4.1.5</tk.mybatis.version>
+        <mysql.driver.version>5.1.44</mysql.driver.version>
+        <pagehelper.version>4.1.6</pagehelper.version>
     </properties>
     <modules>
         <module>smurf-core</module>
@@ -32,6 +36,7 @@
         <module>smurf-common</module>
         <module>smurf-skeleton</module>
         <module>smurf-checker</module>
+        <module>smurf-business</module>
     </modules>
 
     <dependencyManagement>
@@ -145,6 +150,28 @@
                 <version>${project.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-business-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-business-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-business-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-business-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
@@ -205,6 +232,29 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper</artifactId>
+                <version>${tk.mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot</artifactId>
+                <version>${tk.mybatis.spring.bootversion}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.driver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
