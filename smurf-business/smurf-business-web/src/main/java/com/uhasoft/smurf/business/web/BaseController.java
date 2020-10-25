@@ -2,8 +2,11 @@ package com.uhasoft.smurf.business.web;
 
 import com.uhasoft.smurf.business.entity.BaseEntity;
 import com.uhasoft.smurf.business.service.BaseService;
+import com.uhasoft.smurf.checker.annotation.Checked;
+import com.uhasoft.smurf.checker.aop.CheckerException;
 import com.uhasoft.smurf.common.model.Response;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +37,7 @@ public class BaseController<T extends BaseEntity, S extends BaseService<T>> {
     }
 
     @PostMapping
-    public Response<T> save(@RequestBody T entity){
+    public Response<T> save(@RequestBody @Checked T entity){
         return Response.success(service.save(entity));
     }
 
@@ -42,5 +45,10 @@ public class BaseController<T extends BaseEntity, S extends BaseService<T>> {
     public Response<T> delete(@PathVariable String id){
         service.delete(id);
         return Response.success(null);
+    }
+
+    @ExceptionHandler
+    public Response<String> handleException(CheckerException ex){
+        return Response.failure(ex.getMessage());
     }
 }

@@ -82,7 +82,7 @@ public class CheckerInterceptor {
 
     /**
      * Intercept any method whose parameter annotated with @Checked
-     * .. means indicates I do not mind if the method has more parameters
+     * .. indicates I do not mind if the method has more parameters
      */
     @Pointcut("execution(* *(.., @com.uhasoft.smurf.checker.annotation.Checked (*) ,..))")
     public void methodsWithAnnotatedParameter() {
@@ -98,11 +98,16 @@ public class CheckerInterceptor {
                     if(annotations[i][j] instanceof Checked){
                         Checked checked = (Checked)annotations[i][j];
                         String value = checked.value();
+                        List<CheckRule> rules;
                         if(StringUtils.hasText(value)){
-                            List<CheckRule> rules = RULES.get().get(value);
-                            if(!CollectionUtils.isEmpty(rules)){
-                                check(joinPoint.getArgs()[i], rules);
-                            }
+                            rules = RULES.get().get(value);
+                        } else {
+                            String className = joinPoint.getTarget().getClass().getSimpleName();
+                            String methodName = signature.getName();
+                            rules = RULES.get().get(className + "." + methodName);
+                        }
+                        if(!CollectionUtils.isEmpty(rules)){
+                            check(joinPoint.getArgs()[i], rules);
                         }
                         break;
                     }

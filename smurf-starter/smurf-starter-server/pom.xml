@@ -29,6 +29,10 @@
             <artifactId>smurf-config-nacos</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-checker</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
