@@ -11,6 +11,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +20,7 @@ import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -35,6 +38,8 @@ import java.util.stream.Collectors;
  */
 @Aspect
 public class CheckerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(CheckerInterceptor.class);
 
     /**
      * Make it AtomicReference in case it will be updated in some day.
@@ -58,26 +63,33 @@ public class CheckerInterceptor {
      */
     @PostConstruct
     public void init() throws IOException {
-        //Load the rules
-        File rulesFile = ResourceUtils.getFile(DEFAULT_RULE_FILE);
-        String rulesJson = FileUtils.readFileToString(rulesFile);
-        Type ruleType = new TypeToken<List<CheckRule>>(){}.getType();
-        List<CheckRule> rules = new Gson().fromJson(rulesJson, ruleType);
+        try {
+            //Load the rules
+            File rulesFile = ResourceUtils.getFile(DEFAULT_RULE_FILE);
+            String rulesJson = FileUtils.readFileToString(rulesFile);
+            Type ruleType = new TypeToken<List<CheckRule>>(){}.getType();
+            List<CheckRule> rules = new Gson().fromJson(rulesJson, ruleType);
 
-        //Load the checkers
-        File checkersFile = ResourceUtils.getFile(DEFAULT_CHECKER_FILE);
-        String checkersJson = FileUtils.readFileToString(checkersFile);
-        Type checkerType = new TypeToken<Map<String, List<String>>>(){}.getType();
-        Map<String, List<String>> checkers = new Gson().fromJson(checkersJson, checkerType);
+            //Load the checkers
+            File checkersFile = ResourceUtils.getFile(DEFAULT_CHECKER_FILE);
+            String checkersJson = FileUtils.readFileToString(checkersFile);
+            Type checkerType = new TypeToken<Map<String, List<String>>>(){}.getType();
+            Map<String, List<String>> checkers = new Gson().fromJson(checkersJson, checkerType);
 
-        //Find the rules for each checker and save them to the map
-        Map<String, List<CheckRule>> checkerRules = new HashMap<>();
-        for(String checkerName : checkers.keySet()){
-            Predicate<CheckRule> predicate = r -> checkers.get(checkerName).contains(r.getId());
-            checkerRules.put(checkerName, rules.stream().filter(predicate).collect(Collectors.toList()));
+            //Find the rules for each checker and save them to the map
+            Map<String, List<CheckRule>> checkerRules = new HashMap<>();
+            for(String checkerName : checkers.keySet()){
+                Predicate<CheckRule> predicate = r -> checkers.get(checkerName).contains(r.getId());
+                checkerRules.put(checkerName, rules.stream().filter(predicate).collect(Collectors.toList()));
+            }
+
+            RULES.set(checkerRules);
+        } catch (FileNotFoundException ex){
+            logger.warn("Checker rule file missing: {}", ex.getMessage());
+            logger.warn("You enabled smurf checker, but no rules was specified. " +
+                    "if you really don't need checker, please disable it by setting smurf.checker.enabled=false.");
         }
 
-        RULES.set(checkerRules);
     }
 
     /**
