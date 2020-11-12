@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +48,12 @@ public class OrderController {
 //        rules.add(rule);
 //        FlowRuleManager.loadRules(rules);
 //    }
+
+    @GetMapping("header/{headerName}")
+    public Response<String> getHeader(@PathVariable String headerName){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+        return Response.success(headerName + "=" + request.getHeader(headerName) + " -> " + bookResource.getHeader(headerName).getData());
+    }
 
     @PostMapping
     public Response<Order> save(Order order){

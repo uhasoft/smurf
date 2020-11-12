@@ -18,6 +18,10 @@
         </dependency>
         <dependency>
             <groupId>com.uhasoft.smurf</groupId>
+            <artifactId>smurf-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.uhasoft.smurf</groupId>
             <artifactId>smurf-gray</artifactId>
         </dependency>
         <dependency>

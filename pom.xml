@@ -37,6 +37,7 @@
         <module>smurf-skeleton</module>
         <module>smurf-checker</module>
         <module>smurf-business</module>
+        <module>smurf-client</module>
     </modules>
 
     <dependencyManagement>
@@ -147,6 +148,12 @@
             <dependency>
                 <groupId>com.uhasoft.smurf</groupId>
                 <artifactId>smurf-checker</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.uhasoft.smurf</groupId>
+                <artifactId>smurf-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

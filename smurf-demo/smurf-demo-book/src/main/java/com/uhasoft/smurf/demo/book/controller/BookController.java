@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,6 +38,12 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @GetMapping("header/{headerName}")
+    public Response<String> getHeader(@PathVariable String headerName){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        return Response.success(headerName + "=" + request.getHeader(headerName));
+    }
 
     @GetMapping("{id}")
     public Response<Book> findById(@PathVariable String id){

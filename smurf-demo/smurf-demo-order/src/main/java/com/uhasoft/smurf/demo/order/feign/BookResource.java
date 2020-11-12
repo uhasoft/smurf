@@ -15,4 +15,7 @@ public interface BookResource {
 
     @GetMapping("book/{id}")
     Response<Book> findById(@PathVariable("id") String id);
+
+    @GetMapping("book/header/{headerName}")
+    Response<String> getHeader(@PathVariable("headerName") String headerName);
 }
