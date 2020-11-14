@@ -1,5 +1,6 @@
 package com.uhasoft.smurf.starter.server.annotation;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -22,6 +23,6 @@ import java.lang.annotation.Target;
 @SpringBootApplication
 @EnableConfigurationProperties
 @EnableFeignClients
-//@EnableApolloConfig
+@EnableApolloConfig
 public @interface SmurfServer {
 }

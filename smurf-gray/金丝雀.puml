@@ -1,0 +1,29 @@
+@startuml
+note left
+请求中带请求头
+mobile=13800138000
+end note
+(*)  --> "A"
+note left
+设置规则：
+# if #r['mobile'] == '13800138000'
+    then #s['version'] = '1.1'
+# if true
+    then true
+end note
+If "金丝雀请求?" then
+--> [是] "B1"
+note bottom
+    新发版实例version=1.1
+end note
+else
+--> [否] "B2"
+note bottom
+    老版实例version=1.0
+end note
+Endif
+
+skinparam note {
+    fontSize 6
+}
+@enduml

@@ -36,8 +36,16 @@ public class BookController {
     @Value("${server.port}")
     private int port;
 
+    @Value("${smurf.test}")
+    private boolean test;
+
     @Autowired
     private BookService bookService;
+
+    @GetMapping("test")
+    public Response<Boolean> test(){
+        return Response.success(test);
+    }
 
     @GetMapping("header/{headerName}")
     public Response<String> getHeader(@PathVariable String headerName){

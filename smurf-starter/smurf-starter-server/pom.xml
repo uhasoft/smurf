@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>com.uhasoft.smurf</groupId>
-            <artifactId>smurf-config-nacos</artifactId>
+            <artifactId>smurf-config-apollo</artifactId>
         </dependency>
         <dependency>
             <groupId>com.uhasoft.smurf</groupId>
